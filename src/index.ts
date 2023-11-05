@@ -3,7 +3,9 @@ import config from "./config";
 import PlayScene from "./scenes/PlayScene";
 import { MenuScene } from "./scenes/MenuScene";
 import { PreloadScene } from "./scenes/PreloadScene";
-const WIDTH = 800;
+import { ScoreScene } from "./scenes/ScoreScene";
+import { PauseScene } from "./scenes/PauseScene";
+const WIDTH = 400;
 const HEIGHT = 600;
 const BIRD_POSITION = { x: WIDTH * 0.1, y: HEIGHT / 2 };
 
@@ -35,13 +37,16 @@ new Phaser.Game(
     scene: [
       new PreloadScene(SHARED_CONFIG),
       new MenuScene(SHARED_CONFIG),
-      new PlayScene(SHARED_CONFIG)
+      new PlayScene(SHARED_CONFIG),
+      new PauseScene(SHARED_CONFIG),
+      new ScoreScene(SHARED_CONFIG)
     ],
     ...SHARED_CONFIG,
+    pixelArt: true,
     physics: {
       default: "arcade",
       arcade: {
-        debug: true,
+        // debug: true,
         gravity: {
           // y: 200
         }

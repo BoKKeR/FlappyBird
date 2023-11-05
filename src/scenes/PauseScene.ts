@@ -2,17 +2,16 @@ import Phaser from "phaser";
 import { SharedConfigType } from "..";
 import { BaseScene } from "./BaseScene";
 
-export class MenuScene extends BaseScene {
+export class PauseScene extends BaseScene {
   menu: { scene: string; text: string }[];
   config: SharedConfigType;
 
   constructor(config) {
-    super("MenuScene", config);
+    super("PauseScene", config);
     this.config = config;
     this.menu = [
-      { scene: "PlayScene", text: "Play" },
-      { scene: "ScoreScene", text: "Score" },
-      { scene: null, text: "Exit" }
+      { scene: "PlayScene", text: "Continue" },
+      { scene: "MenuScene", text: "Exit" }
     ];
   }
 
@@ -35,10 +34,14 @@ export class MenuScene extends BaseScene {
       textGO.setStyle({ fill: "#fff" });
     });
     textGO.on("pointerup", () => {
-      textGO.scene && this.scene.start(menuItem.scene);
-
-      if (menuItem.text === "Exit") {
-        this.game.destroy(true);
+      if (menuItem.scene && menuItem.text === "Continue") {
+        // shutting down the pause scene and resuiming the play
+        this.scene.stop();
+        this.scene.resume(menuItem.scene);
+      } else {
+        // shutting playscene, pausescene and running menu
+        this.scene.stop("PlayScene");
+        this.scene.start("MenuScene");
       }
     });
   }
